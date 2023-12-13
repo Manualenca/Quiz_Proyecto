@@ -3,16 +3,16 @@ from django.db.models.query import QuerySet
 from django.contrib.auth.models import AbstractUser
 # Create your models here.
 
-class CategoryPreguntaManager (models.Manager):
+class Category (models.Manager):
     '''Manager para obtener todas las posibles categorias 
     de preguntas del juego'''
     name=models.Charfield(max_length=250)
 
     def get_queryset(self):
-        return super().get_queryset().filter(category)
+        return super().get_queryset().filter(Subcategory)
 
 
-class SubcategoryPreguntasManager(models.Manager):
+class Subcategory(models.Manager):
     '''Manager para obtener todas las preguntas relacionadas
     con ciencias'''
     name= models.CharField(max_length=250)
@@ -27,7 +27,7 @@ class SubcategoryPreguntasManager(models.Manager):
     #def get_queryset(self):
         #return super().get_queryset().filter(categorias=entretenimiento)
 
-class QuestionPreguntasManager(models.Manager):
+class Question(models.Manager):
     question = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     subcategory = models.ForeignKey(Subcategory, on_delete=models.CASCADE, blank=True, null=True)
