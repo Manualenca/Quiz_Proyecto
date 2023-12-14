@@ -1,12 +1,19 @@
+from typing import Any
 from django.contrib.auth.models import User
 from django.db import models
 
 class CategoryPregunta(models.Model):
     name = models.CharField(max_length=250)
 
+    def __str__(self):
+        return self.name
+
 class SubcategoryPreguntas(models.Model):
     category = models.ForeignKey(CategoryPregunta, on_delete=models.CASCADE)
     name = models.CharField(max_length=250)
+
+    def __str__(self):
+        return self.category
 
 class QuestionPreguntas(models.Model):
     question = models.TextField()
@@ -17,6 +24,9 @@ class QuestionPreguntas(models.Model):
     type = models.CharField(max_length=20, choices=[('multiple', 'Multiple'), ('boolean', 'Boolean')])
     difficulty = models.CharField(max_length=10, choices=[('easy', 'Easy'), ('medium', 'Medium'), ('hard', 'Hard')])
 
+
+    def __str__(self):
+        return self.question
 class Partida(models.Model):
     jugador = models.CharField(max_length=255)
     preguntas = models.ManyToManyField(QuestionPreguntas, related_name='partidas')
@@ -24,14 +34,23 @@ class Partida(models.Model):
     fecha_fin = models.DateTimeField(blank=True, null=True)
     puntaje = models.IntegerField(default=0)
 
+    def __str__(self):
+        return self.jugador
+
 class PreguntaPartida(models.Model):
     partida = models.ForeignKey(Partida, on_delete=models.CASCADE)
     pregunta = models.ForeignKey(QuestionPreguntas, on_delete=models.CASCADE)
     respuesta_seleccionada = models.CharField(max_length=255, blank=True, null=True)
 
+    def __str__(self):
+        return self.partida
+
 class CustomUser(User):
     is_jugador = models.BooleanField(default=False)
     is_editor = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.is_jugador
 
 class Jugador(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
