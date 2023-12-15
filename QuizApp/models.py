@@ -41,7 +41,8 @@ class PreguntaPartida(models.Model):
     partida = models.ForeignKey(Partida, on_delete=models.CASCADE)
     pregunta = models.ForeignKey(QuestionPreguntas, on_delete=models.CASCADE)
     respuesta_seleccionada = models.CharField(max_length=255, blank=True, null=True)
-
+    ordering = models.IntegerField()
+    
     def __str__(self):
         return self.partida
 
