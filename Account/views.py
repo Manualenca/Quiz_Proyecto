@@ -6,7 +6,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, logout
 from django.contrib import messages
-from .forms.user_form import UserRegisterForm, UserLoginForm
+from .forms import UserRegisterForm, UserLoginForm
 from django.contrib.auth import authenticate, login
 
 def register(request):
@@ -19,7 +19,7 @@ def register(request):
             return redirect('home')  # Redirigir a la página de inicio después del registro
     else:
         form = UserRegisterForm()
-    return render(request, 'register.html', {'form': form})
+    return render(request, 'Account/register.html', {'form': form})
 
 def user_login(request):
     if request.method == 'POST':
@@ -30,13 +30,13 @@ def user_login(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('home')  # Redirigir a la página de inicio después del inicio de sesión
+                return redirect('home.html')  # Redirigir a la página de inicio después del inicio de sesión
             else:
                 messages.error(request, 'Nombre de usuario o contraseña incorrectos.')
     else:
         form = UserLoginForm()
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'Account/login.html', {'form': form})
 
 def user_logout(request):
     logout(request)
-    return redirect('home')
+    return redirect('home.html')

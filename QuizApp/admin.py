@@ -5,7 +5,6 @@ from .models import (
     QuestionPreguntas,
     Partida,
     PreguntaPartida,
-    CustomUser,
     Jugador,
     Editor,
 )
@@ -17,6 +16,5 @@ admin.site.register(SubcategoryPreguntas)
 admin.site.register(QuestionPreguntas)
 admin.site.register(Partida)
 admin.site.register(PreguntaPartida)
-admin.site.register(CustomUser)
 admin.site.register(Jugador)
 admin.site.register(Editor)

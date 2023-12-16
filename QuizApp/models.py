@@ -1,6 +1,7 @@
 from typing import Any
-from django.contrib.auth.models import User
+#from django.contrib.auth.models import User
 from django.db import models
+from Account.models import UserModel
 
 class CategoryPregunta(models.Model):
     name = models.CharField(max_length=250)
@@ -28,7 +29,7 @@ class QuestionPreguntas(models.Model):
     def __str__(self):
         return self.question
 class Partida(models.Model):
-    jugador = models.CharField(max_length=255)
+    jugador = models.ForeignKey(UserModel, on_delete= models.CASCADE)
     preguntas = models.ManyToManyField(QuestionPreguntas, related_name='partidas')
     fecha_inicio = models.DateTimeField(auto_now_add=True)
     fecha_fin = models.DateTimeField(blank=True, null=True)
@@ -46,15 +47,8 @@ class PreguntaPartida(models.Model):
     def __str__(self):
         return self.partida
 
-class CustomUser(User):
-    is_jugador = models.BooleanField(default=False)
-    is_editor = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.is_jugador
-
 class Jugador(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(UserModel, on_delete=models.CASCADE)
     juegos_jugados = models.IntegerField(default=0)
     puntuacion_total = models.IntegerField(default=0)
     juegos_ganados = models.IntegerField(default=0)
@@ -66,7 +60,7 @@ class Jugador(models.Model):
         return f"{self.user.username}"
 
 class Editor(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(UserModel, on_delete=models.CASCADE)
     preguntas_creadas = models.IntegerField(default=0)
     preguntas_editadas = models.IntegerField(default=0)
 
